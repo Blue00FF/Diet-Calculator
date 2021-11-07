@@ -11,5 +11,5 @@ actual meal is chosen for each of the three classes and for each of the mix and 
 that meal the user is assigned to eat.
 
 On the technical side, I have used some functions for the pyinputplus module to restrict the kinds of input that are accepted from the user in order to ensure that 
-the program runs as expected. I have also made use of the match/case structure introduced in python 3.10 and thus a version of python > 3.10 will be required for 
+the program runs as expected. I have also made use of the match/case structure introduced in python 3.10 and thus a version of python >= 3.10 will be required for 
 the script to run.
