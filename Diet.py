@@ -464,7 +464,7 @@ list_fruit = [
 
 def protein_choice(r, i, n):
     choice_type = pyip.inputMenu(
-                ["Carne", "Pesce"],
+                ["Carne", "Pesce", "Uova", "Latticini"],
                 lettered=False,
                 numbered=True,
                 prompt=f"Scegli il tipo di proteina numero {i}: \n",
@@ -485,8 +485,23 @@ def protein_choice(r, i, n):
                 numbered=True,
                 prompt="Scegli il pesce che preferisci: \n",
             )
-            calc = r * int(dict_fish[choice]) / n
-    print(f"Ti spettano {calc}g di {choice}")
+        case "Uova":
+            choice = pyip.inputMenu(
+                list_eggs,
+                lettered=False,
+                numbered=True,
+                prompt="Scegli il tipo di uovo che preferisci: \n",
+            )
+            calc = r * int(dict_eggs[choice]) / n
+        case "Latticini":
+            choice = pyip.inputMenu(
+                list_dairy,
+                lettered=False,
+                numbered=True,
+                prompt="Scegli il tipo di latticino che preferisci: \n",
+            )
+            calc = r * int(dict_dairy[choice]) / n
+    return f"Ti spettano {calc}g di {choice}"
 
 def fat_choice(r, i, n, type):
     match type:
@@ -506,7 +521,7 @@ def fat_choice(r, i, n, type):
                 prompt=f"Scegli il grasso numero {i}: \n",
             )
             calc = r * int(dict_oil[choice]) / n
-    print(f"Ti spettano {calc}g di {choice}")
+    return f"Ti spettano {calc}g di {choice}"
 
 def carb_choice(r, i, n, forced=None):
     if forced==None:
@@ -535,8 +550,10 @@ def carb_choice(r, i, n, forced=None):
                 prompt="Scegli la verdura che preferisci: \n",
             )
             calc = r * int(dict_veg[choice]) / n
-    print(f"Ti spettano {calc}g di {choice}")
+    return f"Ti spettano {calc}g di {choice}"
 
+
+answer = []
 
 input_meal = pyip.inputMenu(
     ["Colazione", "Pranzo", "Snack", "Cena"],
@@ -550,39 +567,54 @@ match input_meal:
         print("Ti spettano una proteina e un grasso. \n")
         n_prot = pyip.inputInt(min=0, prompt="Quante proteine diverse vuoi mescolare? \n")
         for i in range (1, n_prot + 1):
-            protein_choice(2, i, n_prot)           
+            answer.append(protein_choice(2, i, n_prot))           
         n_fat = pyip.inputInt(min=0, prompt="Quanti grassi diversi vuoi mescolare? \n")
         for i in range (1, n_fat + 1):
-            fat_choice(4, i, n_fat, "Nut")
+            answer.append(fat_choice(4, i, n_fat, "Nut"))
     case "Pranzo":
         print("Ti spettano un carboidrato, una proteina e un grasso. \n")
         n_carb = pyip.inputInt(min=0, prompt="Quanti carboidrati diversi vuoi mescolare? \n")
         for i in range (1, n_carb + 1):
-            carb_choice(1.5, i, n_carb)
+            answer.append(carb_choice(1.5, i, n_carb))
         n_prot = pyip.inputInt(min=0, prompt="Quante proteine diverse vuoi mescolare? \n")
         for i in range (1, n_prot + 1):
-            protein_choice(5, i, n_prot)           
+            answer.append(protein_choice(5, i, n_prot))           
         n_fat = pyip.inputInt(min=0, prompt="Quanti grassi diversi vuoi mescolare? \n")
         for i in range (1, n_fat + 1):
-            fat_choice(18, i, n_fat, "Oil")
+            answer.append(fat_choice(18, i, n_fat, "Oil"))
     case "Snack":
         print("Ti spettano un carboidrato e un grasso.")
         n_carb = pyip.inputInt(min=0, prompt="Quanti carboidrati diversi vuoi mescolare? \n")
         for i in range (1, n_carb + 1):
-            carb_choice(1, i, n_carb, "Frutta")
+            answer.append(carb_choice(1, i, n_carb, "Frutta"))
         n_fat = pyip.inputInt(min=0, prompt="Quanti grassi diversi vuoi mescolare? \n")
         for i in range (1, n_fat + 1):
-            fat_choice(2, i, n_fat, "Nut")
+            answer.append(fat_choice(2, i, n_fat, "Nut"))
     case "Cena":
         print("Ti spettano un carboidrato, una proteina e un grasso.")
         n_carb = pyip.inputInt(min=0, prompt="Quanti carboidrati diversi vuoi mescolare? \n")
         for i in range (1, n_carb + 1):
-            carb_choice(1.5, i, n_carb, "Verdura")
+            answer.append(carb_choice(1.5, i, n_carb, "Verdura"))
         n_prot = pyip.inputInt(min=0, prompt="Quante proteine diverse vuoi mescolare? \n")
         for i in range (1, n_prot + 1):
-            protein_choice(5, i, n_prot)           
+            answer.append(protein_choice(5, i, n_prot))           
         n_fat = pyip.inputInt(min=0, prompt="Quanti grassi diversi vuoi mescolare? \n")
         for i in range (1, n_fat + 1):
-            fat_choice(18, i, n_fat, "Oil") 
-            
+            answer.append(fat_choice(18, i, n_fat, "Oil")) 
+
+print("Quindi: \n")
+
+for message in answer:
+    print(message)
+
 print("\n Buon appetito!")
+
+end = input("Premi un tasto qualsiasi per terminare")
+
+# Breakfast = 2 * protein + 4 * fats (dried fruit)
+
+# Lunch = 1.5 * carbs + 5 * protein + 18 * fats (oil/butter)
+
+# Snack = 1 * carbs (fruit) + 2 * fats (dried fruit)
+
+# Dinner = 1.5 * carbs (vegs) + 5 * protein + 18 * fats (oil/butter)
